@@ -41,6 +41,11 @@ yarn-error.log*
 next-env.d.ts
 
 /src/generated/prisma
+/src/app/generated/prisma
+
+# local docs
+BACKEND_PLAN.md
+*.pdf
 
 # clerk configuration (can include secrets)
 /.clerk/

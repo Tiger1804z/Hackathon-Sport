@@ -1529,7 +1529,8 @@ export namespace Prisma {
     id: string | null
     clerkId: string | null
     email: string | null
-    fullName: string | null
+    firstName: string | null
+    lastName: string | null
     role: $Enums.Role | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -1539,7 +1540,8 @@ export namespace Prisma {
     id: string | null
     clerkId: string | null
     email: string | null
-    fullName: string | null
+    firstName: string | null
+    lastName: string | null
     role: $Enums.Role | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -1549,7 +1551,8 @@ export namespace Prisma {
     id: number
     clerkId: number
     email: number
-    fullName: number
+    firstName: number
+    lastName: number
     role: number
     createdAt: number
     updatedAt: number
@@ -1561,7 +1564,8 @@ export namespace Prisma {
     id?: true
     clerkId?: true
     email?: true
-    fullName?: true
+    firstName?: true
+    lastName?: true
     role?: true
     createdAt?: true
     updatedAt?: true
@@ -1571,7 +1575,8 @@ export namespace Prisma {
     id?: true
     clerkId?: true
     email?: true
-    fullName?: true
+    firstName?: true
+    lastName?: true
     role?: true
     createdAt?: true
     updatedAt?: true
@@ -1581,7 +1586,8 @@ export namespace Prisma {
     id?: true
     clerkId?: true
     email?: true
-    fullName?: true
+    firstName?: true
+    lastName?: true
     role?: true
     createdAt?: true
     updatedAt?: true
@@ -1664,7 +1670,8 @@ export namespace Prisma {
     id: string
     clerkId: string
     email: string
-    fullName: string
+    firstName: string
+    lastName: string
     role: $Enums.Role
     createdAt: Date
     updatedAt: Date
@@ -1691,7 +1698,8 @@ export namespace Prisma {
     id?: boolean
     clerkId?: boolean
     email?: boolean
-    fullName?: boolean
+    firstName?: boolean
+    lastName?: boolean
     role?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -1706,7 +1714,8 @@ export namespace Prisma {
     id?: boolean
     clerkId?: boolean
     email?: boolean
-    fullName?: boolean
+    firstName?: boolean
+    lastName?: boolean
     role?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -1716,7 +1725,8 @@ export namespace Prisma {
     id?: boolean
     clerkId?: boolean
     email?: boolean
-    fullName?: boolean
+    firstName?: boolean
+    lastName?: boolean
     role?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -1726,13 +1736,14 @@ export namespace Prisma {
     id?: boolean
     clerkId?: boolean
     email?: boolean
-    fullName?: boolean
+    firstName?: boolean
+    lastName?: boolean
     role?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "clerkId" | "email" | "fullName" | "role" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "clerkId" | "email" | "firstName" | "lastName" | "role" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     playerProfile?: boolean | User$playerProfileArgs<ExtArgs>
     tournaments?: boolean | User$tournamentsArgs<ExtArgs>
@@ -1755,7 +1766,8 @@ export namespace Prisma {
       id: string
       clerkId: string
       email: string
-      fullName: string
+      firstName: string
+      lastName: string
       role: $Enums.Role
       createdAt: Date
       updatedAt: Date
@@ -2189,7 +2201,8 @@ export namespace Prisma {
     readonly id: FieldRef<"User", 'String'>
     readonly clerkId: FieldRef<"User", 'String'>
     readonly email: FieldRef<"User", 'String'>
-    readonly fullName: FieldRef<"User", 'String'>
+    readonly firstName: FieldRef<"User", 'String'>
+    readonly lastName: FieldRef<"User", 'String'>
     readonly role: FieldRef<"User", 'Role'>
     readonly createdAt: FieldRef<"User", 'DateTime'>
     readonly updatedAt: FieldRef<"User", 'DateTime'>
@@ -4977,10 +4990,12 @@ export namespace Prisma {
 
   export type TeamAvgAggregateOutputType = {
     maxCapacity: number | null
+    version: number | null
   }
 
   export type TeamSumAggregateOutputType = {
     maxCapacity: number | null
+    version: number | null
   }
 
   export type TeamMinAggregateOutputType = {
@@ -4988,6 +5003,7 @@ export namespace Prisma {
     name: string | null
     tournamentId: string | null
     maxCapacity: number | null
+    version: number | null
     createdAt: Date | null
   }
 
@@ -4996,6 +5012,7 @@ export namespace Prisma {
     name: string | null
     tournamentId: string | null
     maxCapacity: number | null
+    version: number | null
     createdAt: Date | null
   }
 
@@ -5004,6 +5021,7 @@ export namespace Prisma {
     name: number
     tournamentId: number
     maxCapacity: number
+    version: number
     createdAt: number
     _all: number
   }
@@ -5011,10 +5029,12 @@ export namespace Prisma {
 
   export type TeamAvgAggregateInputType = {
     maxCapacity?: true
+    version?: true
   }
 
   export type TeamSumAggregateInputType = {
     maxCapacity?: true
+    version?: true
   }
 
   export type TeamMinAggregateInputType = {
@@ -5022,6 +5042,7 @@ export namespace Prisma {
     name?: true
     tournamentId?: true
     maxCapacity?: true
+    version?: true
     createdAt?: true
   }
 
@@ -5030,6 +5051,7 @@ export namespace Prisma {
     name?: true
     tournamentId?: true
     maxCapacity?: true
+    version?: true
     createdAt?: true
   }
 
@@ -5038,6 +5060,7 @@ export namespace Prisma {
     name?: true
     tournamentId?: true
     maxCapacity?: true
+    version?: true
     createdAt?: true
     _all?: true
   }
@@ -5133,6 +5156,7 @@ export namespace Prisma {
     name: string
     tournamentId: string
     maxCapacity: number
+    version: number
     createdAt: Date
     _count: TeamCountAggregateOutputType | null
     _avg: TeamAvgAggregateOutputType | null
@@ -5160,6 +5184,7 @@ export namespace Prisma {
     name?: boolean
     tournamentId?: boolean
     maxCapacity?: boolean
+    version?: boolean
     createdAt?: boolean
     tournament?: boolean | TournamentDefaultArgs<ExtArgs>
     members?: boolean | Team$membersArgs<ExtArgs>
@@ -5174,6 +5199,7 @@ export namespace Prisma {
     name?: boolean
     tournamentId?: boolean
     maxCapacity?: boolean
+    version?: boolean
     createdAt?: boolean
     tournament?: boolean | TournamentDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["team"]>
@@ -5183,6 +5209,7 @@ export namespace Prisma {
     name?: boolean
     tournamentId?: boolean
     maxCapacity?: boolean
+    version?: boolean
     createdAt?: boolean
     tournament?: boolean | TournamentDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["team"]>
@@ -5192,10 +5219,11 @@ export namespace Prisma {
     name?: boolean
     tournamentId?: boolean
     maxCapacity?: boolean
+    version?: boolean
     createdAt?: boolean
   }
 
-  export type TeamOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "tournamentId" | "maxCapacity" | "createdAt", ExtArgs["result"]["team"]>
+  export type TeamOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "tournamentId" | "maxCapacity" | "version" | "createdAt", ExtArgs["result"]["team"]>
   export type TeamInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tournament?: boolean | TournamentDefaultArgs<ExtArgs>
     members?: boolean | Team$membersArgs<ExtArgs>
@@ -5225,6 +5253,7 @@ export namespace Prisma {
       name: string
       tournamentId: string
       maxCapacity: number
+      version: number
       createdAt: Date
     }, ExtArgs["result"]["team"]>
     composites: {}
@@ -5658,6 +5687,7 @@ export namespace Prisma {
     readonly name: FieldRef<"Team", 'String'>
     readonly tournamentId: FieldRef<"Team", 'String'>
     readonly maxCapacity: FieldRef<"Team", 'Int'>
+    readonly version: FieldRef<"Team", 'Int'>
     readonly createdAt: FieldRef<"Team", 'DateTime'>
   }
     
@@ -8476,7 +8506,8 @@ export namespace Prisma {
     id: 'id',
     clerkId: 'clerkId',
     email: 'email',
-    fullName: 'fullName',
+    firstName: 'firstName',
+    lastName: 'lastName',
     role: 'role',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -8518,6 +8549,7 @@ export namespace Prisma {
     name: 'name',
     tournamentId: 'tournamentId',
     maxCapacity: 'maxCapacity',
+    version: 'version',
     createdAt: 'createdAt'
   };
 
@@ -8705,7 +8737,8 @@ export namespace Prisma {
     id?: StringFilter<"User"> | string
     clerkId?: StringFilter<"User"> | string
     email?: StringFilter<"User"> | string
-    fullName?: StringFilter<"User"> | string
+    firstName?: StringFilter<"User"> | string
+    lastName?: StringFilter<"User"> | string
     role?: EnumRoleFilter<"User"> | $Enums.Role
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
@@ -8719,7 +8752,8 @@ export namespace Prisma {
     id?: SortOrder
     clerkId?: SortOrder
     email?: SortOrder
-    fullName?: SortOrder
+    firstName?: SortOrder
+    lastName?: SortOrder
     role?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -8736,7 +8770,8 @@ export namespace Prisma {
     AND?: UserWhereInput | UserWhereInput[]
     OR?: UserWhereInput[]
     NOT?: UserWhereInput | UserWhereInput[]
-    fullName?: StringFilter<"User"> | string
+    firstName?: StringFilter<"User"> | string
+    lastName?: StringFilter<"User"> | string
     role?: EnumRoleFilter<"User"> | $Enums.Role
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
@@ -8750,7 +8785,8 @@ export namespace Prisma {
     id?: SortOrder
     clerkId?: SortOrder
     email?: SortOrder
-    fullName?: SortOrder
+    firstName?: SortOrder
+    lastName?: SortOrder
     role?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -8766,7 +8802,8 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"User"> | string
     clerkId?: StringWithAggregatesFilter<"User"> | string
     email?: StringWithAggregatesFilter<"User"> | string
-    fullName?: StringWithAggregatesFilter<"User"> | string
+    firstName?: StringWithAggregatesFilter<"User"> | string
+    lastName?: StringWithAggregatesFilter<"User"> | string
     role?: EnumRoleWithAggregatesFilter<"User"> | $Enums.Role
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
@@ -8925,6 +8962,7 @@ export namespace Prisma {
     name?: StringFilter<"Team"> | string
     tournamentId?: StringFilter<"Team"> | string
     maxCapacity?: IntFilter<"Team"> | number
+    version?: IntFilter<"Team"> | number
     createdAt?: DateTimeFilter<"Team"> | Date | string
     tournament?: XOR<TournamentScalarRelationFilter, TournamentWhereInput>
     members?: UserListRelationFilter
@@ -8938,6 +8976,7 @@ export namespace Prisma {
     name?: SortOrder
     tournamentId?: SortOrder
     maxCapacity?: SortOrder
+    version?: SortOrder
     createdAt?: SortOrder
     tournament?: TournamentOrderByWithRelationInput
     members?: UserOrderByRelationAggregateInput
@@ -8954,6 +8993,7 @@ export namespace Prisma {
     name?: StringFilter<"Team"> | string
     tournamentId?: StringFilter<"Team"> | string
     maxCapacity?: IntFilter<"Team"> | number
+    version?: IntFilter<"Team"> | number
     createdAt?: DateTimeFilter<"Team"> | Date | string
     tournament?: XOR<TournamentScalarRelationFilter, TournamentWhereInput>
     members?: UserListRelationFilter
@@ -8967,6 +9007,7 @@ export namespace Prisma {
     name?: SortOrder
     tournamentId?: SortOrder
     maxCapacity?: SortOrder
+    version?: SortOrder
     createdAt?: SortOrder
     _count?: TeamCountOrderByAggregateInput
     _avg?: TeamAvgOrderByAggregateInput
@@ -8983,6 +9024,7 @@ export namespace Prisma {
     name?: StringWithAggregatesFilter<"Team"> | string
     tournamentId?: StringWithAggregatesFilter<"Team"> | string
     maxCapacity?: IntWithAggregatesFilter<"Team"> | number
+    version?: IntWithAggregatesFilter<"Team"> | number
     createdAt?: DateTimeWithAggregatesFilter<"Team"> | Date | string
   }
 
@@ -9149,7 +9191,8 @@ export namespace Prisma {
     id?: string
     clerkId: string
     email: string
-    fullName: string
+    firstName: string
+    lastName: string
     role?: $Enums.Role
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -9163,7 +9206,8 @@ export namespace Prisma {
     id?: string
     clerkId: string
     email: string
-    fullName: string
+    firstName: string
+    lastName: string
     role?: $Enums.Role
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -9177,7 +9221,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     clerkId?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
-    fullName?: StringFieldUpdateOperationsInput | string
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -9191,7 +9236,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     clerkId?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
-    fullName?: StringFieldUpdateOperationsInput | string
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -9205,7 +9251,8 @@ export namespace Prisma {
     id?: string
     clerkId: string
     email: string
-    fullName: string
+    firstName: string
+    lastName: string
     role?: $Enums.Role
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -9215,7 +9262,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     clerkId?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
-    fullName?: StringFieldUpdateOperationsInput | string
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -9225,7 +9273,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     clerkId?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
-    fullName?: StringFieldUpdateOperationsInput | string
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -9391,6 +9440,7 @@ export namespace Prisma {
     id?: string
     name: string
     maxCapacity?: number
+    version?: number
     createdAt?: Date | string
     tournament: TournamentCreateNestedOneWithoutTeamsInput
     members?: UserCreateNestedManyWithoutTeamsInput
@@ -9404,6 +9454,7 @@ export namespace Prisma {
     name: string
     tournamentId: string
     maxCapacity?: number
+    version?: number
     createdAt?: Date | string
     members?: UserUncheckedCreateNestedManyWithoutTeamsInput
     joinRequests?: JoinRequestUncheckedCreateNestedManyWithoutTeamInput
@@ -9415,6 +9466,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     maxCapacity?: IntFieldUpdateOperationsInput | number
+    version?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tournament?: TournamentUpdateOneRequiredWithoutTeamsNestedInput
     members?: UserUpdateManyWithoutTeamsNestedInput
@@ -9428,6 +9480,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     tournamentId?: StringFieldUpdateOperationsInput | string
     maxCapacity?: IntFieldUpdateOperationsInput | number
+    version?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     members?: UserUncheckedUpdateManyWithoutTeamsNestedInput
     joinRequests?: JoinRequestUncheckedUpdateManyWithoutTeamNestedInput
@@ -9440,6 +9493,7 @@ export namespace Prisma {
     name: string
     tournamentId: string
     maxCapacity?: number
+    version?: number
     createdAt?: Date | string
   }
 
@@ -9447,6 +9501,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     maxCapacity?: IntFieldUpdateOperationsInput | number
+    version?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -9455,6 +9510,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     tournamentId?: StringFieldUpdateOperationsInput | string
     maxCapacity?: IntFieldUpdateOperationsInput | number
+    version?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -9694,7 +9750,8 @@ export namespace Prisma {
     id?: SortOrder
     clerkId?: SortOrder
     email?: SortOrder
-    fullName?: SortOrder
+    firstName?: SortOrder
+    lastName?: SortOrder
     role?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -9704,7 +9761,8 @@ export namespace Prisma {
     id?: SortOrder
     clerkId?: SortOrder
     email?: SortOrder
-    fullName?: SortOrder
+    firstName?: SortOrder
+    lastName?: SortOrder
     role?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -9714,7 +9772,8 @@ export namespace Prisma {
     id?: SortOrder
     clerkId?: SortOrder
     email?: SortOrder
-    fullName?: SortOrder
+    firstName?: SortOrder
+    lastName?: SortOrder
     role?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -9953,11 +10012,13 @@ export namespace Prisma {
     name?: SortOrder
     tournamentId?: SortOrder
     maxCapacity?: SortOrder
+    version?: SortOrder
     createdAt?: SortOrder
   }
 
   export type TeamAvgOrderByAggregateInput = {
     maxCapacity?: SortOrder
+    version?: SortOrder
   }
 
   export type TeamMaxOrderByAggregateInput = {
@@ -9965,6 +10026,7 @@ export namespace Prisma {
     name?: SortOrder
     tournamentId?: SortOrder
     maxCapacity?: SortOrder
+    version?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -9973,11 +10035,13 @@ export namespace Prisma {
     name?: SortOrder
     tournamentId?: SortOrder
     maxCapacity?: SortOrder
+    version?: SortOrder
     createdAt?: SortOrder
   }
 
   export type TeamSumOrderByAggregateInput = {
     maxCapacity?: SortOrder
+    version?: SortOrder
   }
 
   export type EnumRequestStatusFilter<$PrismaModel = never> = {
@@ -10981,6 +11045,7 @@ export namespace Prisma {
     id?: string
     name: string
     maxCapacity?: number
+    version?: number
     createdAt?: Date | string
     tournament: TournamentCreateNestedOneWithoutTeamsInput
     joinRequests?: JoinRequestCreateNestedManyWithoutTeamInput
@@ -10993,6 +11058,7 @@ export namespace Prisma {
     name: string
     tournamentId: string
     maxCapacity?: number
+    version?: number
     createdAt?: Date | string
     joinRequests?: JoinRequestUncheckedCreateNestedManyWithoutTeamInput
     matchesAsTeamA?: MatchUncheckedCreateNestedManyWithoutTeamAInput
@@ -11121,6 +11187,7 @@ export namespace Prisma {
     name?: StringFilter<"Team"> | string
     tournamentId?: StringFilter<"Team"> | string
     maxCapacity?: IntFilter<"Team"> | number
+    version?: IntFilter<"Team"> | number
     createdAt?: DateTimeFilter<"Team"> | Date | string
   }
 
@@ -11160,7 +11227,8 @@ export namespace Prisma {
     id?: string
     clerkId: string
     email: string
-    fullName: string
+    firstName: string
+    lastName: string
     role?: $Enums.Role
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -11173,7 +11241,8 @@ export namespace Prisma {
     id?: string
     clerkId: string
     email: string
-    fullName: string
+    firstName: string
+    lastName: string
     role?: $Enums.Role
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -11202,7 +11271,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     clerkId?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
-    fullName?: StringFieldUpdateOperationsInput | string
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -11215,7 +11285,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     clerkId?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
-    fullName?: StringFieldUpdateOperationsInput | string
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -11228,7 +11299,8 @@ export namespace Prisma {
     id?: string
     clerkId: string
     email: string
-    fullName: string
+    firstName: string
+    lastName: string
     role?: $Enums.Role
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -11241,7 +11313,8 @@ export namespace Prisma {
     id?: string
     clerkId: string
     email: string
-    fullName: string
+    firstName: string
+    lastName: string
     role?: $Enums.Role
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -11259,6 +11332,7 @@ export namespace Prisma {
     id?: string
     name: string
     maxCapacity?: number
+    version?: number
     createdAt?: Date | string
     members?: UserCreateNestedManyWithoutTeamsInput
     joinRequests?: JoinRequestCreateNestedManyWithoutTeamInput
@@ -11270,6 +11344,7 @@ export namespace Prisma {
     id?: string
     name: string
     maxCapacity?: number
+    version?: number
     createdAt?: Date | string
     members?: UserUncheckedCreateNestedManyWithoutTeamsInput
     joinRequests?: JoinRequestUncheckedCreateNestedManyWithoutTeamInput
@@ -11302,7 +11377,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     clerkId?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
-    fullName?: StringFieldUpdateOperationsInput | string
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -11315,7 +11391,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     clerkId?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
-    fullName?: StringFieldUpdateOperationsInput | string
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -11375,7 +11452,8 @@ export namespace Prisma {
     id?: string
     clerkId: string
     email: string
-    fullName: string
+    firstName: string
+    lastName: string
     role?: $Enums.Role
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -11388,7 +11466,8 @@ export namespace Prisma {
     id?: string
     clerkId: string
     email: string
-    fullName: string
+    firstName: string
+    lastName: string
     role?: $Enums.Role
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -11556,7 +11635,8 @@ export namespace Prisma {
     id?: StringFilter<"User"> | string
     clerkId?: StringFilter<"User"> | string
     email?: StringFilter<"User"> | string
-    fullName?: StringFilter<"User"> | string
+    firstName?: StringFilter<"User"> | string
+    lastName?: StringFilter<"User"> | string
     role?: EnumRoleFilter<"User"> | $Enums.Role
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
@@ -11628,7 +11708,8 @@ export namespace Prisma {
     id?: string
     clerkId: string
     email: string
-    fullName: string
+    firstName: string
+    lastName: string
     role?: $Enums.Role
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -11641,7 +11722,8 @@ export namespace Prisma {
     id?: string
     clerkId: string
     email: string
-    fullName: string
+    firstName: string
+    lastName: string
     role?: $Enums.Role
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -11659,6 +11741,7 @@ export namespace Prisma {
     id?: string
     name: string
     maxCapacity?: number
+    version?: number
     createdAt?: Date | string
     tournament: TournamentCreateNestedOneWithoutTeamsInput
     members?: UserCreateNestedManyWithoutTeamsInput
@@ -11671,6 +11754,7 @@ export namespace Prisma {
     name: string
     tournamentId: string
     maxCapacity?: number
+    version?: number
     createdAt?: Date | string
     members?: UserUncheckedCreateNestedManyWithoutTeamsInput
     matchesAsTeamA?: MatchUncheckedCreateNestedManyWithoutTeamAInput
@@ -11697,7 +11781,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     clerkId?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
-    fullName?: StringFieldUpdateOperationsInput | string
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -11710,7 +11795,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     clerkId?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
-    fullName?: StringFieldUpdateOperationsInput | string
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -11734,6 +11820,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     maxCapacity?: IntFieldUpdateOperationsInput | number
+    version?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tournament?: TournamentUpdateOneRequiredWithoutTeamsNestedInput
     members?: UserUpdateManyWithoutTeamsNestedInput
@@ -11746,6 +11833,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     tournamentId?: StringFieldUpdateOperationsInput | string
     maxCapacity?: IntFieldUpdateOperationsInput | number
+    version?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     members?: UserUncheckedUpdateManyWithoutTeamsNestedInput
     matchesAsTeamA?: MatchUncheckedUpdateManyWithoutTeamANestedInput
@@ -11756,6 +11844,7 @@ export namespace Prisma {
     id?: string
     name: string
     maxCapacity?: number
+    version?: number
     createdAt?: Date | string
     tournament: TournamentCreateNestedOneWithoutTeamsInput
     members?: UserCreateNestedManyWithoutTeamsInput
@@ -11768,6 +11857,7 @@ export namespace Prisma {
     name: string
     tournamentId: string
     maxCapacity?: number
+    version?: number
     createdAt?: Date | string
     members?: UserUncheckedCreateNestedManyWithoutTeamsInput
     joinRequests?: JoinRequestUncheckedCreateNestedManyWithoutTeamInput
@@ -11783,6 +11873,7 @@ export namespace Prisma {
     id?: string
     name: string
     maxCapacity?: number
+    version?: number
     createdAt?: Date | string
     tournament: TournamentCreateNestedOneWithoutTeamsInput
     members?: UserCreateNestedManyWithoutTeamsInput
@@ -11795,6 +11886,7 @@ export namespace Prisma {
     name: string
     tournamentId: string
     maxCapacity?: number
+    version?: number
     createdAt?: Date | string
     members?: UserUncheckedCreateNestedManyWithoutTeamsInput
     joinRequests?: JoinRequestUncheckedCreateNestedManyWithoutTeamInput
@@ -11821,6 +11913,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     maxCapacity?: IntFieldUpdateOperationsInput | number
+    version?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tournament?: TournamentUpdateOneRequiredWithoutTeamsNestedInput
     members?: UserUpdateManyWithoutTeamsNestedInput
@@ -11833,6 +11926,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     tournamentId?: StringFieldUpdateOperationsInput | string
     maxCapacity?: IntFieldUpdateOperationsInput | number
+    version?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     members?: UserUncheckedUpdateManyWithoutTeamsNestedInput
     joinRequests?: JoinRequestUncheckedUpdateManyWithoutTeamNestedInput
@@ -11854,6 +11948,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     maxCapacity?: IntFieldUpdateOperationsInput | number
+    version?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tournament?: TournamentUpdateOneRequiredWithoutTeamsNestedInput
     members?: UserUpdateManyWithoutTeamsNestedInput
@@ -11866,6 +11961,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     tournamentId?: StringFieldUpdateOperationsInput | string
     maxCapacity?: IntFieldUpdateOperationsInput | number
+    version?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     members?: UserUncheckedUpdateManyWithoutTeamsNestedInput
     joinRequests?: JoinRequestUncheckedUpdateManyWithoutTeamNestedInput
@@ -11938,6 +12034,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     maxCapacity?: IntFieldUpdateOperationsInput | number
+    version?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tournament?: TournamentUpdateOneRequiredWithoutTeamsNestedInput
     joinRequests?: JoinRequestUpdateManyWithoutTeamNestedInput
@@ -11950,6 +12047,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     tournamentId?: StringFieldUpdateOperationsInput | string
     maxCapacity?: IntFieldUpdateOperationsInput | number
+    version?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     joinRequests?: JoinRequestUncheckedUpdateManyWithoutTeamNestedInput
     matchesAsTeamA?: MatchUncheckedUpdateManyWithoutTeamANestedInput
@@ -11961,6 +12059,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     tournamentId?: StringFieldUpdateOperationsInput | string
     maxCapacity?: IntFieldUpdateOperationsInput | number
+    version?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -12004,6 +12103,7 @@ export namespace Prisma {
     id?: string
     name: string
     maxCapacity?: number
+    version?: number
     createdAt?: Date | string
   }
 
@@ -12011,6 +12111,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     maxCapacity?: IntFieldUpdateOperationsInput | number
+    version?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     members?: UserUpdateManyWithoutTeamsNestedInput
     joinRequests?: JoinRequestUpdateManyWithoutTeamNestedInput
@@ -12022,6 +12123,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     maxCapacity?: IntFieldUpdateOperationsInput | number
+    version?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     members?: UserUncheckedUpdateManyWithoutTeamsNestedInput
     joinRequests?: JoinRequestUncheckedUpdateManyWithoutTeamNestedInput
@@ -12033,6 +12135,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     maxCapacity?: IntFieldUpdateOperationsInput | number
+    version?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -12072,7 +12175,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     clerkId?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
-    fullName?: StringFieldUpdateOperationsInput | string
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -12085,7 +12189,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     clerkId?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
-    fullName?: StringFieldUpdateOperationsInput | string
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -12098,7 +12203,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     clerkId?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
-    fullName?: StringFieldUpdateOperationsInput | string
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
