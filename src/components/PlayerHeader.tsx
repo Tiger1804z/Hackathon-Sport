@@ -40,14 +40,6 @@ export default function PlayerHeader() {
         {/* USER */}
         <div className="flex items-center gap-3">
           <UserButton />
-
-          {/* LOGOUT BUTTON */}
-          <button
-            onClick={() => signOut()}
-            className="px-3 py-1.5 text-sm border rounded-lg hover:bg-gray-100 transition"
-          >
-            Logout
-          </button>
         </div>
       </div>
     </header>
