@@ -40,7 +40,8 @@ model User {
   id        String   @id @default(cuid())
   clerkId   String   @unique
   email     String   @unique
-  fullName  String
+  firstName String
+  lastName  String
   role      Role     @default(PLAYER)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -85,6 +86,7 @@ model Team {
   name         String
   tournamentId String
   maxCapacity  Int      @default(15)
+  version      Int      @default(0)
   createdAt    DateTime @default(now())
 
   tournament     Tournament    @relation(fields: [tournamentId], references: [id], onDelete: Cascade)
