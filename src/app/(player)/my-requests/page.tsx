@@ -1,65 +1,61 @@
 import PlayerHeader from "@/components/PlayerHeader";
+import prisma from "@/lib/prisma";
+import { getCurrentUser } from "@/lib/auth";
 
-const requests = [
-  {
-    id: 1,
-    teamName: "Montreal Wolves",
-    sport: "Football",
-    status: "PENDING",
-    paymentStatus: "NOT_REQUIRED",
-    createdAt: "2026-05-10",
-  },
-  {
-    id: 2,
-    teamName: "Laval Titans",
-    sport: "Football",
-    status: "ACCEPTED",
-    paymentStatus: "PAID",
-    createdAt: "2026-05-08",
-  },
-  {
-    id: 3,
-    teamName: "Quebec Strikers",
-    sport: "Football",
-    status: "REJECTED",
-    paymentStatus: "NOT_REQUIRED",
-    createdAt: "2026-05-05",
-  },
-];
+export default async function MyRequestsPage() {
+  const user = await getCurrentUser();
 
-function getStatusColor(status: string) {
-  switch (status) {
-    case "PENDING":
-      return "bg-yellow-100 text-yellow-700";
-    case "ACCEPTED":
-      return "bg-green-100 text-green-700";
-    case "REJECTED":
-      return "bg-red-100 text-red-700";
-    default:
-      return "bg-gray-100 text-gray-700";
+  if (!user) {
+    throw new Error("Unauthenticated");
   }
-}
 
-function getPaymentColor(status: string) {
-  switch (status) {
-    case "PAID":
-      return "bg-green-100 text-green-700";
-    case "PENDING":
-      return "bg-yellow-100 text-yellow-700";
-    case "NOT_REQUIRED":
-      return "bg-gray-100 text-gray-700";
-    default:
-      return "bg-gray-100 text-gray-700";
+  const requests = await prisma.joinRequest.findMany({
+    where: {
+      playerId: user.id,
+    },
+    include: {
+      team: {
+        include: {
+          tournament: true,
+        },
+      },
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
+
+  function getStatusColor(status: string) {
+    switch (status) {
+      case "PENDING":
+        return "bg-yellow-100 text-yellow-700";
+      case "ACCEPTED":
+        return "bg-green-100 text-green-700";
+      case "REJECTED":
+        return "bg-red-100 text-red-700";
+      default:
+        return "bg-gray-100 text-gray-700";
+    }
   }
-}
 
-export default function MyRequestsPage() {
+  function getPaymentColor(status: string) {
+    switch (status) {
+      case "PAID":
+        return "bg-green-100 text-green-700";
+      case "PENDING":
+        return "bg-yellow-100 text-yellow-700";
+      case "NOT_REQUIRED":
+        return "bg-gray-100 text-gray-700";
+      default:
+        return "bg-gray-100 text-gray-700";
+    }
+  }
+
   return (
     <main className="min-h-screen bg-gray-50">
       <PlayerHeader />
 
       <section className="max-w-5xl mx-auto px-6 py-10">
-
         {/* HEADER */}
         <div className="mb-8">
           <h1 className="text-4xl font-bold tracking-tight">
@@ -73,6 +69,12 @@ export default function MyRequestsPage() {
 
         {/* LIST */}
         <div className="space-y-4">
+          {requests.length === 0 && (
+            <div className="bg-white border rounded-2xl p-6 text-center text-gray-600">
+              No join requests yet.
+            </div>
+          )}
+
           {requests.map((req) => (
             <div
               key={req.id}
@@ -81,11 +83,12 @@ export default function MyRequestsPage() {
               {/* LEFT */}
               <div>
                 <h2 className="text-lg font-semibold">
-                  {req.teamName}
+                  {req.team.name}
                 </h2>
 
                 <p className="text-sm text-gray-500">
-                  {req.sport} • Requested on {req.createdAt}
+                  {req.team.tournament.sport} • Requested on{" "}
+                  {new Date(req.createdAt).toLocaleDateString()}
                 </p>
 
                 <div className="flex gap-2 mt-3">
@@ -107,7 +110,7 @@ export default function MyRequestsPage() {
                 </div>
               </div>
 
-              {/* RIGHT ACTIONS */}
+              {/* RIGHT ACTIONS (UI only for now) */}
               <div className="flex flex-col gap-2">
                 {req.status === "PENDING" && (
                   <button className="px-4 py-2 text-sm border rounded-lg hover:bg-gray-100">
