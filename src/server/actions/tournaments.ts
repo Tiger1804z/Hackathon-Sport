@@ -59,3 +59,18 @@ export async function updateTournament(input: UpdateTournamentInput){
     revalidatePath(`/tournaments/${id}`);
     return tournament;
 }
+
+
+export async function deleteTournament(id: string ){
+    const organizer = await requireRole("ORGANIZER");
+
+    const existing = await prisma.tournament.findUnique({where: {id}});
+    if (!existing) throw new Error("Tournament not found");
+    if (existing.organizerId !== organizer.id && organizer.role !== "ADMIN") {
+        throw new Error("Forbidden");
+    }
+
+    await prisma.tournament.delete({where: {id}});
+    revalidatePath("/tournaments");
+}
+
