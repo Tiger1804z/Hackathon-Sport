@@ -58,5 +58,4 @@ export async function updateTournament(input: UpdateTournamentInput){
     revalidatePath("/tournaments");
     revalidatePath(`/tournaments/${id}`);
     return tournament;
-    }
 }
