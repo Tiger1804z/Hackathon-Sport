@@ -5,12 +5,16 @@ import { notFound } from "next/navigation";
 import TournamentMatchesSection from "@/components/TournamentMatchesSection";
 
 type Props = {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 };
 
-export default async function TournamentDetailsPage({ params }: Props) {
+export default async function TournamentDetailsPage({
+  params,
+}: Props) {
+  const { id } = await params;
+
   const user = await getCurrentUser();
 
   if (!user) {
@@ -19,27 +23,27 @@ export default async function TournamentDetailsPage({ params }: Props) {
 
   const tournament = await prisma.tournament.findFirst({
     where: {
-      id: params.id,
+      id,
       organizerId: user.id,
     },
     include: {
       teams: {
         include: {
           members: true,
-        },
-      },
 
-      // ✅ MATCHES (both sides of relation)
-      matchesAsTeamA: {
-        include: {
-          teamA: true,
-          teamB: true,
-        },
-      },
-      matchesAsTeamB: {
-        include: {
-          teamA: true,
-          teamB: true,
+          matchesAsTeamA: {
+            include: {
+              teamA: true,
+              teamB: true,
+            },
+          },
+
+          matchesAsTeamB: {
+            include: {
+              teamA: true,
+              teamB: true,
+            },
+          },
         },
       },
     },
@@ -54,11 +58,10 @@ export default async function TournamentDetailsPage({ params }: Props) {
     0
   );
 
-  // ✅ MERGE MATCHES (IMPORTANT)
-  const matches = [
-    ...tournament.matchesAsTeamA,
-    ...tournament.matchesAsTeamB,
-  ];
+  const matches = tournament.teams.flatMap((team) => [
+    ...team.matchesAsTeamA,
+    ...team.matchesAsTeamB,
+  ]);
 
   return (
     <main className="min-h-screen bg-gray-50">
@@ -66,16 +69,20 @@ export default async function TournamentDetailsPage({ params }: Props) {
 
       <section className="max-w-6xl mx-auto px-6 py-10">
 
-        {/* HEADER */}
         <div className="mb-8">
-          <h1 className="text-4xl font-bold">{tournament.name}</h1>
+          <h1 className="text-4xl font-bold">
+            {tournament.name}
+          </h1>
 
           <p className="text-gray-600 mt-2">
             {tournament.sport} • {tournament.city}
           </p>
 
           <p className="text-sm text-gray-500 mt-1">
-            Starts: {new Date(tournament.startDate).toLocaleDateString()}
+            Starts:{" "}
+            {new Date(
+              tournament.startDate
+            ).toLocaleDateString()}
           </p>
 
           <p className="mt-2 text-sm">
@@ -83,23 +90,30 @@ export default async function TournamentDetailsPage({ params }: Props) {
             <span className="font-medium">
               {tournament.entryFee === 0
                 ? "Free"
-                : `$${tournament.entryFee / 100} ${tournament.currency}`}
+                : `$${tournament.entryFee / 100} ${
+                    tournament.currency
+                  }`}
             </span>
           </p>
         </div>
 
-        {/* STATS */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
 
           <div className="bg-white border rounded-xl p-6">
-            <p className="text-sm text-gray-500">Teams</p>
+            <p className="text-sm text-gray-500">
+              Teams
+            </p>
+
             <p className="text-3xl font-bold mt-2">
               {tournament.teams.length}
             </p>
           </div>
 
           <div className="bg-white border rounded-xl p-6">
-            <p className="text-sm text-gray-500">Players</p>
+            <p className="text-sm text-gray-500">
+              Players
+            </p>
+
             <p className="text-3xl font-bold mt-2">
               {totalPlayers}
             </p>
@@ -107,9 +121,11 @@ export default async function TournamentDetailsPage({ params }: Props) {
 
         </div>
 
-        {/* TEAMS */}
         <div className="bg-white border rounded-xl p-6 mb-10">
-          <h2 className="text-xl font-semibold mb-4">Teams</h2>
+
+          <h2 className="text-xl font-semibold mb-4">
+            Teams
+          </h2>
 
           <div className="space-y-3">
             {tournament.teams.map((team) => (
@@ -118,21 +134,25 @@ export default async function TournamentDetailsPage({ params }: Props) {
                 className="flex items-center justify-between border rounded-lg p-4"
               >
                 <div>
-                  <h3 className="font-semibold">{team.name}</h3>
+                  <h3 className="font-semibold">
+                    {team.name}
+                  </h3>
+
                   <p className="text-sm text-gray-500">
                     {team.members.length} players
                   </p>
                 </div>
 
                 <span className="text-xs px-3 py-1 bg-gray-100 rounded-full">
-                  {team.members.length}/{team.maxCapacity}
+                  {team.members.length}/
+                  {team.maxCapacity}
                 </span>
               </div>
             ))}
           </div>
+
         </div>
 
-        {/* MATCHES SECTION (🔥 NEW) */}
         <TournamentMatchesSection
           tournamentId={tournament.id}
           teams={tournament.teams}

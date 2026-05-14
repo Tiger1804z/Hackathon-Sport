@@ -1,45 +1,53 @@
 import OrganizerHeader from "@/components/OrganizerHeader";
+import prisma from "@/lib/prisma";
+import { getCurrentUser } from "@/lib/auth";
+import {
+  acceptJoinRequest,
+  rejectJoinRequest,
+} from "@/server/actions/join-requests";
 
-export default function RequestsPage() {
-  // prisma.joinRequest.findMany({ where: { team: { tournament: ... }}})
-  const requests = [
-    {
-      id: "1",
-      playerName: "John Doe",
-      teamName: "Montreal Wolves",
-      sport: "Football",
-      status: "PENDING",
-      paymentStatus: "NOT_REQUIRED",
-      createdAt: "2026-05-10",
+export default async function RequestsPage() {
+  const user = await getCurrentUser();
+
+  if (!user) {
+    throw new Error("Unauthenticated");
+  }
+
+  const requests = await prisma.joinRequest.findMany({
+    where: {
+      team: {
+        tournament: {
+          organizerId: user.id,
+        },
+      },
     },
-    {
-      id: "2",
-      playerName: "Sarah Lee",
-      teamName: "Laval Titans",
-      sport: "Football",
-      status: "ACCEPTED",
-      paymentStatus: "PAID",
-      createdAt: "2026-05-09",
+
+    include: {
+      player: true,
+
+      team: {
+        include: {
+          tournament: true,
+        },
+      },
     },
-    {
-      id: "3",
-      playerName: "Mike Brown",
-      teamName: "Quebec Strikers",
-      sport: "Football",
-      status: "PENDING",
-      paymentStatus: "PENDING",
-      createdAt: "2026-05-08",
+
+    orderBy: {
+      createdAt: "desc",
     },
-  ];
+  });
 
   function statusColor(status: string) {
     switch (status) {
       case "PENDING":
         return "bg-yellow-100 text-yellow-700";
+
       case "ACCEPTED":
         return "bg-green-100 text-green-700";
+
       case "REJECTED":
         return "bg-red-100 text-red-700";
+
       default:
         return "bg-gray-100 text-gray-700";
     }
@@ -49,10 +57,13 @@ export default function RequestsPage() {
     switch (status) {
       case "PAID":
         return "bg-green-100 text-green-700";
+
       case "PENDING":
         return "bg-yellow-100 text-yellow-700";
+
       case "NOT_REQUIRED":
         return "bg-gray-100 text-gray-700";
+
       default:
         return "bg-gray-100 text-gray-700";
     }
@@ -64,7 +75,6 @@ export default function RequestsPage() {
 
       <section className="max-w-6xl mx-auto px-6 py-10">
 
-        {/* HEADER */}
         <div className="mb-8">
           <h1 className="text-4xl font-bold">
             Join Requests
@@ -75,7 +85,18 @@ export default function RequestsPage() {
           </p>
         </div>
 
-        {/* LIST */}
+        {requests.length === 0 && (
+          <div className="bg-white border rounded-2xl p-10 text-center">
+            <h2 className="text-xl font-semibold">
+              No join requests
+            </h2>
+
+            <p className="text-gray-600 mt-2">
+              Requests from players will appear here.
+            </p>
+          </div>
+        )}
+
         <div className="space-y-4">
           {requests.map((req) => (
             <div
@@ -83,22 +104,24 @@ export default function RequestsPage() {
               className="bg-white border rounded-2xl p-6 flex items-center justify-between"
             >
 
-              {/* LEFT */}
               <div>
                 <h2 className="text-lg font-semibold">
-                  {req.playerName}
+                  {req.player.firstName && req.player.lastName
+                    ? `${req.player.firstName} ${req.player.lastName}`
+                    : req.player.email}
                 </h2>
 
                 <p className="text-sm text-gray-500">
-                  {req.teamName} • {req.sport}
+                  {req.team.name} • {req.team.tournament.sport}
                 </p>
 
                 <p className="text-xs text-gray-400 mt-1">
-                  Requested on {req.createdAt}
+                  Requested on{" "}
+                  {new Date(req.createdAt).toLocaleDateString()}
                 </p>
 
-                {/* BADGES */}
                 <div className="flex gap-2 mt-3">
+
                   <span
                     className={`text-xs px-3 py-1 rounded-full ${statusColor(
                       req.status
@@ -114,20 +137,41 @@ export default function RequestsPage() {
                   >
                     {req.paymentStatus}
                   </span>
+
                 </div>
               </div>
 
-              {/* ACTIONS */}
               <div className="flex flex-col gap-2">
+
                 {req.status === "PENDING" && (
                   <>
-                    <button className="px-4 py-2 text-sm bg-black text-white rounded-lg hover:opacity-90">
-                      Accept
-                    </button>
+                    <form
+                      action={async () => {
+                        "use server";
 
-                    <button className="px-4 py-2 text-sm border rounded-lg hover:bg-gray-100">
-                      Reject
-                    </button>
+                        await acceptJoinRequest({
+                          id: req.id,
+                        });
+                      }}
+                    >
+                      <button className="px-4 py-2 text-sm bg-black text-white rounded-lg hover:opacity-90">
+                        Accept
+                      </button>
+                    </form>
+
+                    <form
+                      action={async () => {
+                        "use server";
+
+                        await rejectJoinRequest({
+                          id: req.id,
+                        });
+                      }}
+                    >
+                      <button className="px-4 py-2 text-sm border rounded-lg hover:bg-gray-100">
+                        Reject
+                      </button>
+                    </form>
                   </>
                 )}
 
@@ -137,11 +181,13 @@ export default function RequestsPage() {
                       View Player
                     </button>
                   )}
+
               </div>
 
             </div>
           ))}
         </div>
+
       </section>
     </main>
   );
