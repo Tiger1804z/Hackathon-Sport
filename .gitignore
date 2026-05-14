@@ -45,7 +45,7 @@ next-env.d.ts
 
 # local docs
 BACKEND_PLAN.md
-*.pdf
+
 
 # clerk configuration (can include secrets)
 /.clerk/

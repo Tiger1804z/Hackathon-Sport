@@ -25,7 +25,7 @@ export default function HomePage() {
           <div className="flex items-center gap-3">
             {!isSignedIn ? (
               <>
-                <SignInButton mode="modal" >
+                <SignInButton mode="modal">
                   <button
                     disabled={!role}
                     className={`px-4 py-2 rounded-lg border transition ${
