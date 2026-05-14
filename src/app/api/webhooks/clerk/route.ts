@@ -59,6 +59,18 @@ const svix_signature = request.headers.get("svix-signature");
         lastName: data.last_name ?? "",
         role: (data.unsafe_metadata?.role as Role) || "PLAYER",
       },
+    }).catch(async (e) => {
+      if (e.code === "P2002") {
+        return prisma.user.update({
+          where: { email: data.email_addresses[0].email_address },
+          data: {
+            clerkId: data.id,
+            firstName: data.first_name ?? "",
+            lastName: data.last_name ?? "",
+          },
+        });
+      }
+      throw e;
     });
   }
 

@@ -1,7 +1,7 @@
 import {auth} from "@clerk/nextjs/server";
 import {redirect } from "next/navigation";
 import prisma from "./prisma";
-import type {Role} from "../generated/prisma";
+import type {Role} from "../app/generated/prisma";
 
 
 export async function getCurrentUser() {
