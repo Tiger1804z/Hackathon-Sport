@@ -23,33 +23,51 @@ export default function CreateTournamentModal({
     currency: "CAD",
   });
 
+  const [error, setError] = useState<string | null>(null);
+
   function handleChange(
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) {
-    setForm({
-      ...form,
+    setForm((prev) => ({
+      ...prev,
       [e.target.name]:
         e.target.name === "entryFee"
           ? Number(e.target.value)
           : e.target.value,
-    });
+    }));
+
+    setError(null); // clear error while typing
+  }
+
+  function validate() {
+    if (form.name.trim().length < 2) return "Name must be at least 2 characters";
+    if (form.sport.trim().length < 2) return "Sport must be at least 2 characters";
+    if (form.city.trim().length < 2) return "City must be at least 2 characters";
+    if (!form.startDate) return "Start date is required";
+    if (form.entryFee < 0) return "Entry fee cannot be negative";
+
+    return null;
   }
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
 
+    const validationError = validate();
+    if (validationError) {
+      setError(validationError);
+      return;
+    }
+
     startTransition(async () => {
       try {
         await createTournament({
-          name: form.name,
-          sport: form.sport,
-          city: form.city,
+          name: form.name.trim(),
+          sport: form.sport.trim(),
+          city: form.city.trim(),
           startDate: new Date(form.startDate),
           entryFee: form.entryFee,
           currency: form.currency,
         });
-
-        alert("Tournament created");
 
         onClose();
 
@@ -61,9 +79,11 @@ export default function CreateTournamentModal({
           entryFee: 0,
           currency: "CAD",
         });
-      } catch (error) {
-        console.error(error);
-        alert("Failed to create tournament");
+
+        setError(null);
+      } catch (err) {
+        console.error(err);
+        setError("Failed to create tournament");
       }
     });
   }
@@ -72,14 +92,11 @@ export default function CreateTournamentModal({
 
   return (
     <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
-      
       <div className="bg-white rounded-2xl p-6 w-full max-w-lg">
 
         {/* HEADER */}
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-2xl font-bold">
-            Create Tournament
-          </h2>
+          <h2 className="text-2xl font-bold">Create Tournament</h2>
 
           <button
             onClick={onClose}
@@ -89,104 +106,72 @@ export default function CreateTournamentModal({
           </button>
         </div>
 
+        {/* ERROR */}
+        {error && (
+          <div className="mb-4 p-3 text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg">
+            {error}
+          </div>
+        )}
+
         {/* FORM */}
-        <form
-          onSubmit={handleSubmit}
-          className="space-y-4"
-        >
+        <form onSubmit={handleSubmit} className="space-y-4">
 
           {/* NAME */}
-          <div>
-            <label className="text-sm font-medium">
-              Tournament Name
-            </label>
-
-            <input
-              name="name"
-              value={form.name}
-              onChange={handleChange}
-              className="w-full mt-1 px-4 py-2 border rounded-lg"
-              placeholder="Montreal Spring Cup"
-            />
-          </div>
+          <input
+            name="name"
+            value={form.name}
+            onChange={handleChange}
+            className="w-full px-4 py-2 border rounded-lg"
+            placeholder="Tournament Name"
+          />
 
           {/* SPORT */}
-          <div>
-            <label className="text-sm font-medium">
-              Sport
-            </label>
-
-            <input
-              name="sport"
-              value={form.sport}
-              onChange={handleChange}
-              className="w-full mt-1 px-4 py-2 border rounded-lg"
-              placeholder="Football"
-            />
-          </div>
+          <input
+            name="sport"
+            value={form.sport}
+            onChange={handleChange}
+            className="w-full px-4 py-2 border rounded-lg"
+            placeholder="Sport"
+          />
 
           {/* CITY */}
-          <div>
-            <label className="text-sm font-medium">
-              City
-            </label>
-
-            <input
-              name="city"
-              value={form.city}
-              onChange={handleChange}
-              className="w-full mt-1 px-4 py-2 border rounded-lg"
-              placeholder="Montreal"
-            />
-          </div>
+          <input
+            name="city"
+            value={form.city}
+            onChange={handleChange}
+            className="w-full px-4 py-2 border rounded-lg"
+            placeholder="City"
+          />
 
           {/* DATE */}
-          <div>
-            <label className="text-sm font-medium">
-              Start Date
-            </label>
-
-            <input
-              type="date"
-              name="startDate"
-              value={form.startDate}
-              onChange={handleChange}
-              className="w-full mt-1 px-4 py-2 border rounded-lg"
-            />
-          </div>
+          <input
+            type="date"
+            name="startDate"
+            value={form.startDate}
+            onChange={handleChange}
+            className="w-full px-4 py-2 border rounded-lg"
+          />
 
           {/* ENTRY FEE */}
-          <div>
-            <label className="text-sm font-medium">
-              Entry Fee (in cents)
-            </label>
-
-            <input
-              type="number"
-              name="entryFee"
-              value={form.entryFee}
-              onChange={handleChange}
-              className="w-full mt-1 px-4 py-2 border rounded-lg"
-              placeholder="0"
-            />
-          </div>
+          <input
+            type="number"
+            name="entryFee"
+            value={form.entryFee}
+            onChange={handleChange}
+            className="w-full px-4 py-2 border rounded-lg"
+            placeholder="Entry Fee (cents)"
+          />
 
           {/* CURRENCY */}
-          <div>
-            <label className="text-sm font-medium">
-              Currency
-            </label>
-
-            <select
-              name="currency"
-              value={form.currency}
-              onChange={handleChange}
-              className="w-full mt-1 px-4 py-2 border rounded-lg"
-            >
-              <option value="CAD">CAD</option>
-              <option value="USD">USD</option>
-            </select>
-          </div>
+          <select
+            name="currency"
+            value={form.currency}
+            onChange={handleChange}
+            className="w-full px-4 py-2 border rounded-lg"
+          >
+            <option value="CAD">CAD</option>
+            <option value="USD">USD</option>
+          </select>
 
           {/* ACTIONS */}
           <div className="flex justify-end gap-3 pt-4">
@@ -202,7 +187,7 @@ export default function CreateTournamentModal({
             <button
               type="submit"
               disabled={isPending}
-              className="px-4 py-2 bg-black text-white rounded-lg hover:opacity-90 disabled:opacity-50"
+              className="px-4 py-2 bg-black text-white rounded-lg disabled:opacity-50"
             >
               {isPending ? "Creating..." : "Create"}
             </button>
