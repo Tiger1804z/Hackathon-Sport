@@ -25,7 +25,7 @@ export default function HomePage() {
           <div className="flex items-center gap-3">
             {!isSignedIn ? (
               <>
-                <SignInButton mode="modal">
+                <SignInButton mode="modal" forceRedirectUrl="/redirect">
                   <button
                     disabled={!role}
                     className={`px-4 py-2 rounded-lg border transition ${
@@ -40,6 +40,7 @@ export default function HomePage() {
 
                 <SignUpButton
                   mode="modal"
+                  forceRedirectUrl="/redirect"
                   unsafeMetadata={{
                     role: role ?? "PLAYER",
                   }}

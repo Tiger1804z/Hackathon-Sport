@@ -1,13 +1,14 @@
 import OrganizerHeader from "@/components/OrganizerHeader";
 import prisma from "@/lib/prisma";
 import { getCurrentUser } from "@/lib/auth";
+import { redirect } from "next/navigation";
 import CreateTournamentController from "@/components/CreateTournamentController";
 
 export default async function DashboardPage() {
   const user = await getCurrentUser();
 
   if (!user) {
-    throw new Error("Unauthenticated");
+    redirect("/sign-in");
   }
 
   // REAL DATA
