@@ -2,6 +2,7 @@ import PlayerHeader from "@/components/PlayerHeader";
 import prisma from "@/lib/prisma";
 import { getCurrentUser } from "@/lib/auth";
 import JoinTeamButton from "@/components/JoinTeamButton";
+import Link from "next/link";
 
 type Props = {
   searchParams?: {
@@ -61,14 +62,13 @@ export default async function TeamsPage({ searchParams }: Props) {
         <div className="mb-8">
           <h1 className="text-4xl font-bold">Find Teams</h1>
           <p className="text-gray-600 mt-2">
-            Use filters to find the perfect team.
+            Search and join available teams.
           </p>
         </div>
 
-        {/* 🔥 FILTERS */}
+        {/* FILTERS (FIXED: uses GET params properly) */}
         <form className="bg-white border rounded-xl p-4 mb-8 flex flex-wrap gap-3">
 
-          {/* CITY */}
           <input
             type="text"
             name="city"
@@ -77,7 +77,6 @@ export default async function TeamsPage({ searchParams }: Props) {
             className="px-3 py-2 border rounded-lg text-sm"
           />
 
-          {/* SPORT */}
           <input
             type="text"
             name="sport"
@@ -86,17 +85,16 @@ export default async function TeamsPage({ searchParams }: Props) {
             className="px-3 py-2 border rounded-lg text-sm"
           />
 
-          {/* AVAILABLE ONLY */}
           <label className="flex items-center gap-2 text-sm">
             <input
               type="checkbox"
               name="available"
               defaultChecked={availableOnly}
+              value="true"
             />
             Available only
           </label>
 
-          {/* APPLY */}
           <button
             type="submit"
             className="px-4 py-2 bg-black text-white rounded-lg text-sm"
@@ -110,7 +108,7 @@ export default async function TeamsPage({ searchParams }: Props) {
           <div className="bg-white border rounded-2xl p-10 text-center">
             <h2 className="text-xl font-semibold">No teams found</h2>
             <p className="text-gray-600 mt-2">
-              Try changing filters.
+              Try adjusting filters.
             </p>
           </div>
         )}
@@ -118,8 +116,7 @@ export default async function TeamsPage({ searchParams }: Props) {
         {/* GRID */}
         <div className="grid gap-6 md:grid-cols-2">
           {filteredTeams.map((team) => {
-            const isFull =
-              team._count.members >= team.maxCapacity;
+            const isFull = team._count.members >= team.maxCapacity;
 
             return (
               <div
@@ -139,7 +136,9 @@ export default async function TeamsPage({ searchParams }: Props) {
                 </div>
 
                 {/* NAME */}
-                <h2 className="text-xl font-semibold">{team.name}</h2>
+                <h2 className="text-xl font-semibold">
+                  {team.name}
+                </h2>
 
                 <p className="text-sm text-gray-600 mt-2">
                   Tournament: {team.tournament.name}
@@ -162,18 +161,28 @@ export default async function TeamsPage({ searchParams }: Props) {
                   />
                 </div>
 
-                {/* ACTION */}
-                <div className="mt-6">
+                {/* ACTIONS */}
+                <div className="mt-6 flex gap-2">
+
                   <JoinTeamButton
                     teamId={team.id}
                     disabled={isFull}
                   />
+
+                  <Link
+                    href={`/teams/${team.id}`}
+                    className="px-4 py-2 border rounded-lg hover:bg-gray-100 text-sm"
+                  >
+                    View Details
+                  </Link>
+
                 </div>
 
               </div>
             );
           })}
         </div>
+
       </section>
     </main>
   );
