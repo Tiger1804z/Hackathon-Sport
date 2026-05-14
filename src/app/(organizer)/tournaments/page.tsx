@@ -59,7 +59,7 @@ export default async function TournamentsPage() {
               {/* CTA */}
               <div className="mt-5 flex gap-2">
 
-                {/* ✅ FIX: use Link instead of router */}
+                {/* FIX: use Link instead of router */}
                 <Link
                   href={`/tournaments/${tournament.id}`}
                   className="px-3 py-1 text-sm border rounded-lg hover:bg-gray-100"
