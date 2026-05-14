@@ -1,28 +1,26 @@
-import Link from "next/link";
 import OrganizerHeader from "@/components/OrganizerHeader";
+import prisma from "@/lib/prisma";
+import { getCurrentUser } from "@/lib/auth";
+import CreateTournamentController from "@/components/CreateTournamentController";
 
-export default function TournamentsPage() {
-  // prisma.tournament.findMany({ where: { organizerId } }) 
-  const tournaments = [
-    {
-      id: "1",
-      name: "Montreal Spring Cup",
-      sport: "Football",
-      city: "Montreal",
-      startDate: "2026-05-20",
-      entryFee: 500,
-      teamsCount: 6,
+export default async function TournamentsPage() {
+  const user = await getCurrentUser();
+
+  if (!user) {
+    throw new Error("Unauthenticated");
+  }
+
+  const tournaments = await prisma.tournament.findMany({
+    where: {
+      organizerId: user.id,
     },
-    {
-      id: "2",
-      name: "Laval Winter League",
-      sport: "Basketball",
-      city: "Laval",
-      startDate: "2026-06-10",
-      entryFee: 0,
-      teamsCount: 4,
+    include: {
+      teams: true,
     },
-  ];
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
 
   return (
     <main className="min-h-screen bg-gray-50">
@@ -36,58 +34,68 @@ export default function TournamentsPage() {
             <h1 className="text-4xl font-bold">
               Tournaments
             </h1>
+
             <p className="text-gray-600 mt-2">
               Create and manage your sports competitions.
             </p>
           </div>
 
-          <Link
-            href="/tournaments/new"
-            className="px-5 py-2 bg-black text-white rounded-lg hover:opacity-90"
-          >
-            + New Tournament
-          </Link>
+          {/* ✅ MODAL TRIGGER */}
+          <CreateTournamentController />
         </div>
+
+        {/* EMPTY STATE */}
+        {tournaments.length === 0 && (
+          <div className="bg-white border rounded-2xl p-10 text-center">
+            <h2 className="text-2xl font-semibold">
+              No tournaments yet
+            </h2>
+
+            <p className="text-gray-600 mt-2">
+              Create your first tournament to get started.
+            </p>
+          </div>
+        )}
 
         {/* GRID */}
         <div className="grid gap-6 md:grid-cols-2">
-          {tournaments.map((t) => (
-            <Link
-              key={t.id}
-              href={`/tournaments/${t.id}`}
+          {tournaments.map((tournament) => (
+            <div
+              key={tournament.id}
               className="bg-white border rounded-2xl p-6 hover:shadow-md transition"
             >
               {/* TOP */}
               <div className="flex items-center justify-between mb-3">
                 <span className="text-xs px-3 py-1 rounded-full bg-gray-100">
-                  {t.sport}
+                  {tournament.sport}
                 </span>
 
                 <span className="text-xs px-3 py-1 rounded-full bg-blue-100 text-blue-700">
-                  {t.city}
+                  {tournament.city}
                 </span>
               </div>
 
               {/* NAME */}
               <h2 className="text-xl font-semibold">
-                {t.name}
+                {tournament.name}
               </h2>
 
               {/* INFO */}
               <p className="text-sm text-gray-600 mt-2">
-                Starts: {t.startDate}
+                Starts:{" "}
+                {new Date(tournament.startDate).toLocaleDateString()}
               </p>
 
               <p className="text-sm text-gray-600">
-                Teams: {t.teamsCount}
+                Teams: {tournament.teams.length}
               </p>
 
               <p className="text-sm mt-2">
                 Entry fee:{" "}
                 <span className="font-medium">
-                  {t.entryFee === 0
+                  {tournament.entryFee === 0
                     ? "Free"
-                    : `$${t.entryFee / 100}`}
+                    : `$${tournament.entryFee / 100} ${tournament.currency}`}
                 </span>
               </p>
 
@@ -101,7 +109,7 @@ export default function TournamentsPage() {
                   Edit
                 </button>
               </div>
-            </Link>
+            </div>
           ))}
         </div>
       </section>
