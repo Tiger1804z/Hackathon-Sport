@@ -1,36 +1,105 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Sports League Platform
 
-## Getting Started
+A full-stack web platform for managing local sports leagues, tournaments, teams, and matches.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Overview
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+This project is a sports league management platform that connects **players** and **organizers** in one centralized system.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Status
+In development... 
 
-## Learn More
+### Problem solved
 
-To learn more about Next.js, take a look at the following resources:
+Amateur sports competitions are often managed using disconnected tools (messages, spreadsheets, social media). This platform centralizes everything in one place.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Target users
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+* **Players**: join teams, browse matches, participate in tournaments
+* **Organizers**: create and manage tournaments, teams, and match schedules
 
-## Deploy on Vercel
+### MVP features
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+* Authentication system
+* Role-based access (Player / Organizer)
+* Tournament creation
+* Team management
+* Join requests system
+* Match viewing
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## Tech Stack
+
+* Next.js (App Router) – Full-stack framework
+* Prisma ORM – Type-safe database access
+* PostgreSQL (Neon) – Cloud database
+* Clerk – Authentication & session management
+* TailwindCSS – Styling
+* Stripe – Payments (optional / future feature)
+
+---
+
+## Architecture
+
+The project uses a modern full-stack architecture based on **Next.js Server Actions**.
+
+* Server Actions handle backend logic without traditional API routes
+* Prisma ensures safe and structured database access
+* Clerk manages authentication and user sessions
+* Role-based access controls user permissions across the app
+
+---
+
+## Database Model
+
+Main entities:
+
+* User
+* Team
+* Tournament
+* Match
+* JoinRequest
+
+### Relationships
+
+* A user can belong to a team
+* A team belongs to a tournament
+* Join requests connect players to teams
+* Matches link teams within tournaments
+
+Prisma ensures relational integrity and consistent data behavior.
+
+---
+
+## User Flow
+
+1. Sign up / login via Clerk
+2. Choose role (Player or Organizer)
+3. Organizer creates tournaments and teams
+4. Players browse teams and tournaments
+5. Players send join requests (in progress)
+6. Users view matches and team information
+
+---
+
+## Current Status
+
+Some features are still in progress:
+
+* Player team search improvements
+* Join request system completion
+* Match interaction features
+
+---
+
+## Future Improvements
+
+* Live match updates
+* Notifications system
+* Advanced tournament brackets
+* Payment integration with Stripe
+* Player statistics dashboard
