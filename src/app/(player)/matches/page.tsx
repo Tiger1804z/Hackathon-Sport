@@ -9,19 +9,19 @@ export default async function MatchesPage() {
     throw new Error("Unauthenticated");
   }
 
-  const matches = await prisma.match.findMany({
-    include: {
-      teamA: {
-        include: {
-          tournament: true,
-        },
+const matches = await prisma.match.findMany({
+  include: {
+    teamA: {
+      include: {
+        tournament: true,
       },
-      teamB: true,
     },
-    orderBy: {
-      date: "asc",
-    },
-  });
+    teamB: true,
+  },
+  orderBy: {
+    date: "asc",
+  },
+});
 
   return (
     <main className="min-h-screen bg-gray-50">
