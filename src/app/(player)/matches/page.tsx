@@ -1,50 +1,46 @@
 import PlayerHeader from "@/components/PlayerHeader";
+import prisma from "@/lib/prisma";
+import { getCurrentUser } from "@/lib/auth";
 
-const matches = [
-  {
-    id: 1,
-    teamA: "Montreal Wolves",
-    teamB: "Laval Titans",
-    date: "May 18, 2026",
-    time: "7:00 PM",
-    location: "Montreal Stadium",
-    scoreA: 2,
-    scoreB: 1,
-    sport: "Football",
-  },
-  {
-    id: 2,
-    teamA: "Quebec Strikers",
-    teamB: "Downtown FC",
-    date: "May 20, 2026",
-    time: "6:30 PM",
-    location: "Quebec Arena",
-    scoreA: null,
-    scoreB: null,
-    sport: "Football",
-  },
-];
+export default async function MatchesPage() {
+  const user = await getCurrentUser();
 
-export default function MatchesPage() {
+  if (!user) {
+    throw new Error("Unauthenticated");
+  }
+
+  const matches = await prisma.match.findMany({
+    include: {
+      teamA: {
+        include: {
+          tournament: true,
+        },
+      },
+      teamB: true,
+    },
+    orderBy: {
+      date: "asc",
+    },
+  });
+
   return (
     <main className="min-h-screen bg-gray-50">
       <PlayerHeader />
 
       <section className="max-w-6xl mx-auto px-6 py-10">
-
-        {/* HERO IDEA (MEETUP STYLE) */}
+        
+        {/* HEADER */}
         <div className="mb-10">
           <h1 className="text-4xl font-bold tracking-tight">
-            Discover Matches Near You 
+            Discover Matches Near You
           </h1>
 
           <p className="text-gray-600 mt-2 max-w-2xl">
             Join a game, support your team, or check upcoming local matches.
-            Think of it as a Meetup for sports — connect, play, compete.
           </p>
         </div>
 
-        {/* MATCH GRID */}
+        {/* GRID */}
         <div className="grid gap-6 md:grid-cols-2">
           {matches.map((match) => (
             <div
@@ -55,10 +51,10 @@ export default function MatchesPage() {
               {/* TOP BADGE */}
               <div className="flex justify-between items-center mb-4">
                 <span className="text-xs px-3 py-1 rounded-full bg-gray-100">
-                  {match.sport}
+                  {match.teamA.tournament?.sport ?? "Match"}
                 </span>
 
-                {match.scoreA !== null ? (
+                {match.scoreA != null ? (
                   <span className="text-xs px-3 py-1 rounded-full bg-green-100 text-green-700">
                     Finished
                   </span>
@@ -72,12 +68,12 @@ export default function MatchesPage() {
               {/* TEAMS */}
               <div className="flex items-center justify-between">
                 <div className="text-center">
-                  <p className="font-semibold">{match.teamA}</p>
+                  <p className="font-semibold">{match.teamA.name}</p>
                   <p className="text-xs text-gray-500">Home</p>
                 </div>
 
                 <div className="text-2xl font-bold">
-                  {match.scoreA !== null ? (
+                  {match.scoreA != null ? (
                     <span>
                       {match.scoreA} - {match.scoreB}
                     </span>
@@ -87,18 +83,24 @@ export default function MatchesPage() {
                 </div>
 
                 <div className="text-center">
-                  <p className="font-semibold">{match.teamB}</p>
+                  <p className="font-semibold">{match.teamB.name}</p>
                   <p className="text-xs text-gray-500">Away</p>
                 </div>
               </div>
 
               {/* DETAILS */}
               <div className="mt-6 text-sm text-gray-600 space-y-1">
-                <p>📅 {match.date} • {match.time}</p>
+                <p>
+                  📅 {new Date(match.date).toLocaleDateString()} •{" "}
+                  {new Date(match.date).toLocaleTimeString([], {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}
+                </p>
                 <p>📍 {match.location}</p>
               </div>
 
-              {/* CTA STYLE */}
+              {/* CTA */}
               <button className="mt-6 w-full py-2 rounded-lg border hover:bg-gray-100 transition text-sm">
                 View Match Details
               </button>
