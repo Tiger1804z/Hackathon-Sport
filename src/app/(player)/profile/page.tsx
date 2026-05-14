@@ -1,9 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import PlayerHeader from "@/components/PlayerHeader";
+import { upsertPlayerProfile } from "@/server/actions/profile";
 
 export default function ProfilePage() {
+  const [isPending, startTransition] = useTransition();
+
   const [form, setForm] = useState({
     fullName: "",
     city: "",
@@ -24,9 +27,25 @@ export default function ProfilePage() {
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
 
-    console.log("PROFILE SUBMIT:", form);
+    startTransition(async () => {
+      try {
+        await upsertPlayerProfile({
+          fullName: form.fullName,
+          city: form.city,
+          favoriteSport: form.favoriteSport,
+          level: form.level as
+            | "BEGINNER"
+            | "INTERMEDIATE"
+            | "ADVANCED",
+          position: form.position,
+        });
 
-    // later → call Server Action (updatePlayerProfile)
+        alert("Profile updated successfully");
+      } catch (error) {
+        console.error(error);
+        alert("Failed to update profile");
+      }
+    });
   }
 
   return (
@@ -51,9 +70,13 @@ export default function ProfilePage() {
           onSubmit={handleSubmit}
           className="bg-white border rounded-2xl p-6 space-y-5"
         >
+
           {/* FULL NAME */}
           <div>
-            <label className="text-sm font-medium">Full Name</label>
+            <label className="text-sm font-medium">
+              Full Name
+            </label>
+
             <input
               name="fullName"
               value={form.fullName}
@@ -65,7 +88,10 @@ export default function ProfilePage() {
 
           {/* CITY */}
           <div>
-            <label className="text-sm font-medium">City</label>
+            <label className="text-sm font-medium">
+              City
+            </label>
+
             <input
               name="city"
               value={form.city}
@@ -77,7 +103,10 @@ export default function ProfilePage() {
 
           {/* SPORT */}
           <div>
-            <label className="text-sm font-medium">Favorite Sport</label>
+            <label className="text-sm font-medium">
+              Favorite Sport
+            </label>
+
             <input
               name="favoriteSport"
               value={form.favoriteSport}
@@ -89,7 +118,10 @@ export default function ProfilePage() {
 
           {/* LEVEL */}
           <div>
-            <label className="text-sm font-medium">Level</label>
+            <label className="text-sm font-medium">
+              Level
+            </label>
+
             <select
               name="level"
               value={form.level}
@@ -107,6 +139,7 @@ export default function ProfilePage() {
             <label className="text-sm font-medium">
               Preferred Position (optional)
             </label>
+
             <input
               name="position"
               value={form.position}
@@ -119,9 +152,10 @@ export default function ProfilePage() {
           {/* SUBMIT */}
           <button
             type="submit"
-            className="w-full bg-black text-white py-2 rounded-lg hover:opacity-90 transition"
+            disabled={isPending}
+            className="w-full bg-black text-white py-2 rounded-lg hover:opacity-90 transition disabled:opacity-50"
           >
-            Save Profile
+            {isPending ? "Saving..." : "Save Profile"}
           </button>
         </form>
       </section>
